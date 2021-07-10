@@ -20,6 +20,7 @@ class LemonadeStand:
         self.lemonade = 0
         self.lemonade_price = random.randrange(1, 10)
         self.weather = random.randrange(50, 100)
+        self.gameData=open("lemonadeGameData.csv","a+")
 
     def make_lemonade(self):
         """ Make lemonade to sell later. Cost to make lemonade changes each day."""
@@ -34,6 +35,7 @@ class LemonadeStand:
             except ValueError:
                 print ('Please choose a number between 1-10.')
                 continue
+        self.gameData.write("make,"+str(self.day)+","+str(self.weather)+","+str(self.lemonade_price)+","+str(self.cash)+","+str(self.lemonade)+"\n")
         self.lemonade += lemonade
         self.cash -= lemonade * (float(self.lemonade_price) / 100)
         self.day += 1
@@ -70,6 +72,7 @@ class LemonadeStand:
                     demand) + '.')
             demand = self.lemonade
         revenue = demand * round((float(price) / 100), 2)
+        self.gameData.write("sell,"+str(self.day)+","+str(self.weather)+","+str(self.lemonade_price)+","+str(self.cash)+","+str(self.lemonade)+","+str(demand)+","+str(revenue)+","+str(cups)+","+str(price_factor)+","+str(heat_factor)+"\n")
         self.lemonade -= demand
         self.cash += revenue
         self.day += 1
